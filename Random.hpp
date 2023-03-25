@@ -1,5 +1,5 @@
 //      +--------------------------------------------------------------------------------+
-//      |                                  Random v0.1.0                                 |
+//      |                                  Random v0.2.0                                 |
 //      |  Modified Date : 2023/3/25                                                     |
 //      |  Introduction : System.Random in C++                                           |
 //      |  License : MIT                                                                 |
@@ -18,12 +18,13 @@
 #define SYSTEM_RANDOM_HPP
 
 #define SYSTEM_RANDOM_VERSION_MAJOR 0
-#define SYSTEM_RANDOM_VERSION_MINOR 1
+#define SYSTEM_RANDOM_VERSION_MINOR 2
 #define SYSTEM_RANDOM_VERSION_PATCH 0
 #define SYSTEM_RANDOM_VERSION (SYSTEM_RANDOM_VERSION_MAJOR << 16 | SYSTEM_RANDOM_VERSION_MINOR << 8 | SYSTEM_RANDOM_VERSION_PATCH)
-#define SYSTEM_RANDOM_VERSION_STRING "0.1.0"
+#define SYSTEM_RANDOM_VERSION_STRING "0.2.0"
 
 #include <random>
+#include <vector>
 
 namespace System
 {
@@ -37,6 +38,22 @@ namespace System
             std::mt19937                        generator(rand_dev());
             std::uniform_int_distribution<T>    distr(range_from, range_to);
             return distr(generator);
+        }
+
+        template<typename T>
+        static void shuffle(T first, T last)
+        {
+            std::random_device                  rand_dev;
+            std::mt19937                        generator(rand_dev());
+            std::shuffle(first, last, generator);
+        }
+
+        template<typename T>
+        static void shuffle(std::vector<T>& container)
+        {
+            std::random_device                  rand_dev;
+            std::mt19937                        generator(rand_dev());
+            std::shuffle(container.begin(), container.end(), generator);
         }
     };
 }
